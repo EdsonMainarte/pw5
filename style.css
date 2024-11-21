@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&family=Poppins:ital,wght@0,200;1,400&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Oswald', sans-serif;
+
+}
+body{
+    background: #007bff;
+}
+.wrapper{
+    width: 450px;
+    padding: 2rem 1rem;
+    margin: 120px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 20px 35px rgba(0,0,0,0.1);
+}
+h1{
+    font-size: 2rem;
+    color: #07001f;
+    margin-bottom: 1.2rem;
+}
+form input{
+    width: 92%;
+    outline: none;
+    border: 1px solid #fff;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    background: #e4e4e4;
+}
+button{
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    padding: 10px 0;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+    width: 90%;
+    color: #fff;
+    cursor: pointer;
+    background-color: #007bff;
+}
+button:hover{
+    background: #839deb;
+}
+input:focus{
+    border: 1px solid rgb(192, 192, 192);
+}
+
+/* css do menu index */
+nav{
+    background: #007bff;
+    height: 80px;
+    width: 100%;
+}
+
+label.logo{
+    color: white;
+    font-size: 35px;
+    line-height: 80px;
+    padding: 0 100px;
+    font-weight: bold;
+}
+nav ul{
+    float: right;
+    margin-right: 20px;  
+}
+nav ul li{
+    display: inline-block;
+    line-height: 80px;
+    margin: 0 5px;
+}
+nav ul li a{
+    color: white;
+    font-size: 17px;
+    padding: 7px 13px;
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+a.active,a:hover{
+    background: gray;
+    transition: .5s;
+}
+
+/* flip card */
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem; 
+  }
+.flip-card {
+    width: 300px;
+    height: 400px;
+    perspective: 1000px;
+    border-radius: 10px;
+    margin-right: 20px;
+    margin-top: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .flip-card-inner {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    border-radius: 10px;
+  }
+  
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-card-front,
+  .flip-card-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    border-radius: 10px;
+  }
+  
+  .flip-card-front {
+    background-color: black;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotateY(0deg);
+  }
+  
+  .flip-card-back {
+    background-color: #c3d4f9;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: rotateY(180deg);
+  }
+  
+  h2 {
+    font-size: 18px;
+  }
+  
+  p.bv {
+    font-size: 20px;
+    line-height: 1.5;
+  }
+
+  .welcome-text {
+    text-align: center;
+  }
+
+  /* rodape do site */
+  .footer {
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    padding: 7px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .footer p {
+    margin: 0;
+  }
+
+  /* menualuno */
+  
+.menu {
+    background-color: #007bff;
+    padding: 0px;
+  }
+  
+  .logo {
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  
+  li.em {
+    margin-right: 30px;
+    position: relative;
+  }
+  
+   a {
+    text-decoration: none;
+    color: currentColor;
+    
+}
+  .drop-down {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #839deb;
+    border-radius: 2px 2px 5px 5px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+  }
+  
+  li:hover .drop-down {
+    display: block;
+  }
+  
+  .drop-down ul {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .drop-down li {
+    margin: 0;
+  }
+  
+  .drop-down a {
+    padding: 30px;
+    font-size: 14px;
+  }
+
+  /*css para select*/
+  
+  .select {
+    width: 92%;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 20px;
+    background-color: #e4e4e4;
+    color: #007bff;
+    text-align: center;
+    
+}
+
+/* Estilo para as opções dentro do select */
+.select option {
+    padding: 10px;
+}

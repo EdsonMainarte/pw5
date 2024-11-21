@@ -1,13 +1,8 @@
-# Responsive Sidebar Dark & Light Mode
-## [Watch it on youtube](https://youtu.be/OxftwnqyNVI)
-### Responsive Sidebar Dark & Light Mode
+## fotogency, a theme by ThemeWagon team.
 
-- Responsive Sidebar Menu Using HTML CSS And JavaScript
-- Contains a dark and light mode.
-- With an active color indicator on the links.
-- Developed first with the Mobile First methodology, then for desktop.
-- Compatible with all mobile devices and with a beautiful and pleasant user interface.
+---
 
-💙 Join the channel to see more videos like this. [Bedimcode](https://www.youtube.com/@Bedimcode)
+Thank you for using Fotogency See the "public" folder, you will find everything ready to use there. If you want to use the gulp based workflow, cd to this directory in your terminal and run this command: npm i && gulp
+Get the figma design file here:
 
-![preview img](/preview.png)
+<!-- [https://www.figma.com/community/file/iVtJJapAlfDQJLcDedSwMm] -->
