@@ -50,22 +50,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $prazo = $_POST['prazo'];
         $responsavel_id = isset($_POST['responsavel']) && is_numeric($_POST['responsavel']) ? (int)$_POST['responsavel'] : null;
 
+        // Verificar se uma imagem foi enviada
+        $caminho_imagem = null;
+        if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
+            $file_tmp_name = $_FILES['imagem']['tmp_name'];
+            $file_name = basename($_FILES['imagem']['name']);
+            $upload_dir = '../uploads/'; // Diretório para salvar os arquivos
+            $caminho_imagem = $upload_dir . $file_name;
+
+            // Verificar se o diretório de uploads existe
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0755, true);
+            }
+
+            // Mover a imagem para o diretório de uploads
+            if (!move_uploaded_file($file_tmp_name, $caminho_imagem)) {
+                $_SESSION['mensagem'] = "Erro ao mover a imagem para o diretório de uploads.";
+                header("Location: ../quadro.php?id=$id_quadro");
+                exit();
+            }
+        }
+
         // Inserir o cartão no banco de dados
         $stmt = $pdo->prepare("
-            INSERT INTO cartoes (nome_cartao, descricao_cartao, prazo, id_lista, membro_responsavel_id, created_at)
-            VALUES (:nome_cartao, :descricao_cartao, :prazo, :id_lista, :responsavel_id, NOW())
+            INSERT INTO cartoes (nome_cartao, descricao_cartao, prazo, id_lista, membro_responsavel_id, created_at, caminho_imagem)
+            VALUES (:nome_cartao, :descricao_cartao, :prazo, :id_lista, :responsavel_id, NOW(), :caminho_imagem)
         ");
         $stmt->execute([
             'nome_cartao' => $nome_cartao,
             'descricao_cartao' => $descricao_cartao,
             'prazo' => $prazo,
             'id_lista' => $id_lista,
-            'responsavel_id' => $responsavel_id
+            'responsavel_id' => $responsavel_id,
+            'caminho_imagem' => $caminho_imagem // Aqui estamos salvando o caminho da imagem no banco
         ]);
 
         $id_cartao = $pdo->lastInsertId(); // ID do cartão criado
 
-        // Processar o upload de arquivos
+        // Processar o upload de arquivos (se houver)
         if (isset($_FILES['arquivo']) && $_FILES['arquivo']['error'] === UPLOAD_ERR_OK) {
             $file_tmp_name = $_FILES['arquivo']['tmp_name'];
             $file_name = basename($_FILES['arquivo']['name']);
@@ -118,6 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Criar Cartão - Sicron</title>
     <link rel="stylesheet" href="../style.css">
     <style>
+        /* Estilos básicos */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -134,10 +157,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             align-items: center;
         }
 
-        nav .logo {
-            font-size: 1.5em;
-        }
-
         .container {
             width: 80%;
             max-width: 800px;
@@ -150,11 +169,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         form .form-group {
             margin-bottom: 15px;
-        }
-
-        form label {
-            display: block;
-            margin-bottom: 5px;
         }
 
         form input[type="text"], form textarea, form input[type="date"], form select {
@@ -205,6 +219,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-group">
                 <label for="prazo">Prazo:</label>
                 <input type="date" id="prazo" name="prazo">
+            </div>
+            <div class="form-group">
+                <label for="imagem">Imagem:</label>
+                <input type="file" id="imagem" name="imagem">
             </div>
             <div class="form-group">
                 <label for="arquivo">Anexo:</label>

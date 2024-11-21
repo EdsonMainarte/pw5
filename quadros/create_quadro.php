@@ -49,12 +49,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             mkdir($diretorio_upload, 0777, true);
         }
 
-        // Mover o arquivo para o diretório de uploads
-        if (move_uploaded_file($foto_quadro['tmp_name'], $diretorio_upload . $nome_arquivo)) {
-            // A imagem foi carregada com sucesso, agora salva no banco
-            $foto_quadro = $diretorio_upload . $nome_arquivo;
+        // Verifica o tipo de arquivo da imagem
+        $ext = strtolower($ext); // Para garantir que a extensão esteja em minúsculo
+        $extensoes_validas = ['jpg', 'jpeg', 'png', 'gif'];
+
+        if (in_array($ext, $extensoes_validas)) {
+            // Mover o arquivo para o diretório de uploads
+            if (move_uploaded_file($foto_quadro['tmp_name'], $diretorio_upload . $nome_arquivo)) {
+                // A imagem foi carregada com sucesso, agora salva no banco
+                $foto_quadro = $diretorio_upload . $nome_arquivo;
+            } else {
+                // Se houver erro no upload, define a foto como null
+                $foto_quadro = null;
+            }
         } else {
-            // Se houver erro no upload, define a foto como null
+            // Se a extensão do arquivo for inválida
+            echo "Tipo de arquivo inválido. Somente imagens JPG, JPEG, PNG e GIF são permitidas.";
             $foto_quadro = null;
         }
     }
@@ -79,6 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -170,12 +181,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <textarea name="descricao_quadro" placeholder="Descrição do Quadro" rows="4"></textarea>
             
             <div class="form-group">
-             
-            <div class="color-picker">
-        <!-- Seletor de cor para escolher a borda -->
-        <label for="border-color">Escolha a cor da borda:</label>
-        <input type="color" id="border-color" name="border-color" value="#0079bf">
-    </div>
+                <label for="border-color">Escolha a cor da borda:</label>
+                <input type="color" id="border-color" name="cor_quadro" value="#0079bf">
             </div>
 
             <div class="form-group">

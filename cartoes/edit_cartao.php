@@ -52,11 +52,6 @@ $stmt = $pdo->prepare("
 $stmt->execute(['board_id' => $quadro_id]);
 $membros = $stmt->fetchAll();
 
-// // Obtém os anexos do cartão
-// $stmt = $pdo->prepare("SELECT * FROM arquivos_cartao WHERE id_cartao = :id_cartao");
-// $stmt->execute(['id_cartao' => $cartao_id]);
-// $anexos = $stmt->fetchAll();
-
 // Obtém os anexos do cartão
 $stmt = $pdo->prepare("SELECT * FROM arquivos_cartao WHERE id_cartao = :id_cartao");
 $stmt->execute(['id_cartao' => $cartao_id]);
@@ -97,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $prazo = $_POST['prazo'];
     $responsavel_id = isset($_POST['responsavel']) && is_numeric($_POST['responsavel']) ? (int)$_POST['responsavel'] : null;
 
+    // Atualiza o cartão
     $stmt = $pdo->prepare("
         UPDATE cartoes 
         SET nome_cartao = :nome_cartao, descricao_cartao = :descricao_cartao, prazo = :prazo, membro_responsavel_id = :responsavel_id
@@ -273,7 +269,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <nav>
         <label class="logo">Sicron</label>
-    </nav>
+    </nav>  
     <div class="container">
         <h1>Editar Cartão</h1>
         <form action="" method="post" enctype="multipart/form-data">
@@ -282,52 +278,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" id="nome_cartao" name="nome_cartao" value="<?php echo htmlspecialchars($cartao['nome_cartao']); ?>" required>
             </div>
             <div class="form-group">
-                <label for="descricao_cartao">Descrição do Cartão:</label>
+                <label for="descricao_cartao">Descrição:</label>
                 <textarea id="descricao_cartao" name="descricao_cartao" rows="4" required><?php echo htmlspecialchars($cartao['descricao_cartao']); ?></textarea>
             </div>
             <div class="form-group">
                 <label for="prazo">Prazo:</label>
-                <input type="date" id="prazo" name="prazo" value="<?php echo htmlspecialchars($cartao['prazo']); ?>">
-            </div>
-            <div class="form-group">
-                <div class="anexos">
-                    <h2>Anexos Atuais</h2>
-                    <?php if (count($anexos) > 0): ?>
-                        <?php foreach ($anexos as $anexo): ?>
-                            <div class="anexo">
-                                <a href="<?php echo htmlspecialchars($anexo['caminho_arquivo']); ?>" target="_blank">
-                                    <?php echo htmlspecialchars($anexo['nome_arquivo']); ?>
-                                </a>
-                                <a href="?id_cartao=<?php echo htmlspecialchars($cartao_id); ?>&id_lista=<?php echo htmlspecialchars($lista_id); ?>&id_quadro=<?php echo htmlspecialchars($quadro_id); ?>&delete=<?php echo htmlspecialchars($anexo['id_arquivo']); ?>" class="delete-btn" onclick="return confirm('Tem certeza de que deseja excluir este arquivo?');">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>Não há anexos para este cartão.</p>
-                    <?php endif; ?>
-                </div>
-                <label for="arquivo">Novo Anexo:</label>
-                <input type="file" id="arquivo" name="arquivo">
+                <input type="date" id="prazo" name="prazo" value="<?php echo $cartao['prazo']; ?>" required>
             </div>
             <div class="form-group">
                 <label for="responsavel">Responsável:</label>
-                <select id="responsavel" name="responsavel">
-                    <option value="">Nenhum</option>
+                <select name="responsavel" id="responsavel">
+                    <option value="">Selecione o responsável</option>
                     <?php foreach ($membros as $membro): ?>
-                        <option value="<?php echo htmlspecialchars($membro['cod']); ?>" <?php echo $membro['cod'] == $cartao['membro_responsavel_id'] ? 'selected' : ''; ?>>
+                        <option value="<?php echo $membro['cod']; ?>" <?php echo $membro['cod'] == $cartao['membro_responsavel_id'] ? 'selected' : ''; ?>>
                             <?php echo htmlspecialchars($membro['nome']); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            <input type="hidden" name="id_cartao" value="<?php echo htmlspecialchars($cartao_id); ?>">
-            <input type="hidden" name="id_lista" value="<?php echo htmlspecialchars($lista_id); ?>">
-            <button type="submit">Salvar Alterações</button>
+            <div class="form-group">
+                <label for="arquivo">Novo Anexo:</label>
+                <input type="file" id="arquivo" name="arquivo" onchange="previewImage(event)">
+            </div>
+
+            <!-- Espaço para exibir a imagem -->
+            <div id="imagePreview" style="display: none;">
+                <h3>Pré-visualização da Imagem:</h3>
+                <img id="previewImage" src="" alt="Pré-visualização da imagem" style="max-width: 100%; height: auto;">
+            </div>
+
+            <button type="submit" class="btn">Atualizar Cartão</button>
         </form>
+
+        <div class="comentarios">
+            <h3>Anexos:</h3>
+            <?php foreach ($anexos as $anexo): ?>
+                <div class="comentario">
+                    <a href="../<?php echo htmlspecialchars($anexo['caminho_arquivo']); ?>" target="_blank"><?php echo htmlspecialchars($anexo['nome_arquivo']); ?></a> |
+                    <a href="edit_cartao.php?id_cartao=<?php echo $cartao_id; ?>&id_lista=<?php echo $lista_id; ?>&id_quadro=<?php echo $quadro_id; ?>&delete=<?php echo $anexo['id_arquivo']; ?>">Excluir</a>
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
-    <footer>
-        <p>&copy; 2024 Sicron</p>
-    </footer>
+
+    <script>
+    function previewImage(event) {
+        const preview = document.getElementById('imagePreview');
+        const image = document.getElementById('previewImage');
+        
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function() {
+            image.src = reader.result;
+            preview.style.display = 'block'; // Exibe a pré-visualização
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+    </script>
 </body>
 </html>

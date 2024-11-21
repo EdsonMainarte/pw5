@@ -48,11 +48,9 @@
         <div class="container"><a class="navbar-brand" href="index.html"><img src="assets/img/s4.png" alt="" /></a>
           <ul class="navbar-nav ms-auto mt-4 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link btn btn-light text-black me-2" href="index.php">Home</a>
+              <a class="nav-link btn btn-light text-black me-2" href="index.php">Tela inicial</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link btn btn-light text-black ms-2" href="about.html">Sobre Nós</a>
-            </li>
+           
           </ul>
           
         </div>
@@ -404,7 +402,7 @@
           <div class="col-lg-2 col-sm-4">
             <h3 class="fw-bold fs-1 mt-5 mb-4">Landings</h3>
             <ul class="list-unstyled">
-              <li class="my-3 col-md-4"><a href="#">Home</a></li>
+              <li class="my-3 col-md-4"><a href="#"></a></li>
               <li class="my-3"><a href="#">Products</a></li>
               <li class="my-3"><a href="#">Services</a></li>
             </ul>
@@ -412,7 +410,7 @@
           <div class="col-lg-2 col-sm-4">
             <h3 class="fw-bold fs-1 mt-5 mb-4">Company</h3>
             <ul class="list-unstyled">
-              <li class="my-3"><a href="#">Home</a></li>
+              <li class="my-3"><a href="#"></a></li>
               <li class="my-3"><a href="#">Careers</a><span class="py-1 px-2 rounded-2 bg-success fw-bold text-dark ms-2">Hiring!</span></li>
               <li class="my-3"><a href="#">Services</a></li>
             </ul>
@@ -420,7 +418,7 @@
           <div class="col-lg-2 col-sm-4">
             <h3 class="fw-bold fs-1 mt-5 mb-4">Resources</h3>
             <ul class="list-unstyled">
-              <li class="mb-3"><a href="#">Home</a></li>
+              <li class="mb-3"><a href="#"></a></li>
               <li class="mb-3"><a href="#">Products</a></li>
               <li class="mb-3"><a href="#">Services</a></li>
             </ul>
